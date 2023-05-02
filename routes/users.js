@@ -30,7 +30,10 @@ router.get("/:email", function (req, res, next) {
     if (!user.length) {
       res.json({ msg: "User not Found" });
     }
-    res.json({ msg: "User Found Successfully", val: user });
+    else{
+      res.json({ msg: "User Found Successfully", val: user });
+    }
+
   });
 });
 
