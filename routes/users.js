@@ -24,16 +24,32 @@ router.post("/", function (req, res, next) {
 });
 
 router.get("/:email", function (req, res, next) {
-  User
-    .find({
-      email: req.params.email,
-    })
+  User.find({
+    email: req.params.email,
+  }).then((user) => {
+    if (!user.length) {
+      res.json({ msg: "User not Found" });
+    }
+    res.json({ msg: "User Found Successfully", val: user });
+  });
+});
+
+router.delete("/:email", function (req, res, next) {
+  User.deleteOne({
+    email: req.params.email,
+  })
     .then((user) => {
-      if(!user.length){
-          res.json({ msg: "User not Found"});
+      if (!user.deletedCount) {
+        res.json({ msg: "User not Found" , user});
+      }else{
+        res.json({ msg: "User Deleted Successfully" });
       }
-      res.json({ msg: "User Found Successfully", val: user });
+
     })
+    .catch(function (error) {
+      console.log(error); // Failure
+      res.json({ msg: "Error" , error: error});
+    });
 });
 
 module.exports = router;
