@@ -1,4 +1,6 @@
 const User = require("../models/User");
+const { query, validationResult } = require('express-validator');
+
 const getUsers = (req, res) => {
   User.find({})
     .then((users) => {
@@ -10,13 +12,18 @@ const getUsers = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  new User({
-    name: req.body.name,
-    email: req.body.email,
-  });
-  user.save().then((val) => {
-    res.json({ msg: "User Added Successfully", val: val });
-  });
+  const result = validationResult(req);
+  if (result.isEmpty()) {
+    let user = new User({
+      name: req.body.name,
+      email: req.body.email,
+    });
+    user.save().then((val) => {
+      res.json({ msg: "User Added Successfully", val: val });
+    });
+    return res.send(`Hello, ${req.body.name}!`);
+  }
+  res.send({ errors: result.array() });
 };
 
 const getUser = (req, res) => {
