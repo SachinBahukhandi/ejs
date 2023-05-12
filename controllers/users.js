@@ -1,6 +1,7 @@
 const User = require("../models/User");
-const { query, validationResult } = require('express-validator');
+const { query, validationResult, body } = require('express-validator');
 
+const CREATE_USER= 'create-user';
 const getUsers = (req, res) => {
   User.find({})
     .then((users) => {
@@ -37,8 +38,22 @@ const getUser = (req, res) => {
     }
   });
 };
+
+const validate= (method)=>{
+  switch (method) {
+    case CREATE_USER: {
+     return [
+        body('name', "name doesn't exists").exists(),
+        body('email', 'Invalid email').exists().isEmail()
+       ]
+    }
+  }
+};
 module.exports = {
   getUsers,
   createUser,
   getUser,
+  validate,
+  CREATE_USER
+
 };

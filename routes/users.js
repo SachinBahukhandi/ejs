@@ -1,11 +1,11 @@
 var express = require("express");
 const User = require("../models/User");
 var router = express.Router();
-const {getUsers, createUser, getUser} = require('../controllers/users');
+const {getUsers, createUser, getUser, validate, CREATE_USER} = require('../controllers/users');
 /* GET users listing. */
 router.get("/", getUsers);
 
-router.post("/", createUser);
+router.post("/",validate(CREATE_USER) ,createUser);
 
 router.get("/:email", getUser);
 
