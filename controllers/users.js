@@ -1,7 +1,7 @@
 const User = require("../models/User");
-const { query, validationResult, body } = require('express-validator');
+const { query, validationResult, body } = require("express-validator");
 
-const CREATE_USER= 'create-user';
+const CREATE_USER = "create-user";
 const getUsers = (req, res) => {
   User.find({})
     .then((users) => {
@@ -39,13 +39,24 @@ const getUser = (req, res) => {
   });
 };
 
-const validate= (method)=>{
+const validate = (method) => {
   switch (method) {
     case CREATE_USER: {
-     return [
-        body('name', "name doesn't exists").exists(),
-        body('email', 'Invalid email').exists().isEmail()
-       ]
+      return [
+        body("name", "name doesn't exists").exists(),
+        body("email", "Invalid email")
+          .exists()
+          .isEmail()
+          .custom(async (value) => {
+            const existingUser = await User.find({
+              email: value,
+            });
+            if (existingUser) {
+              // Will use the below as the error message
+              throw new Error("A user already exists with this e-mail address");
+            }
+          }),
+      ];
     }
   }
 };
@@ -54,6 +65,5 @@ module.exports = {
   createUser,
   getUser,
   validate,
-  CREATE_USER
-
+  CREATE_USER,
 };
