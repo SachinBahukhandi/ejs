@@ -52,7 +52,7 @@ const createUser = (req, res) => {
     });
     return res.send(`Hello, ${req.body.name}!`);
   }
-  res.send({ errors: result.array() });
+  return res.send({ errors: result.array() });
 };
 
 const getUser = (req, res) => {
