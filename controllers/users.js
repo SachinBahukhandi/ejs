@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const { query, validationResult, body } = require("express-validator");
+const { query, validationResult, body, param } = require("express-validator");
 
 const CREATE_USER = "create-user";
 const UPDATE_USER = "update-user";
@@ -15,6 +15,7 @@ const getUsers = (req, res) => {
 
 const updateUser = (req, res) => {
   const result = validationResult(req);
+
   if (result.isEmpty()) {
     let dataToBeUpdated = {
       name: req.body.name,
@@ -34,10 +35,14 @@ const updateUser = (req, res) => {
         return res.send({ errors: result.array() });
       });
   }
+  return res.send({ errors: result.array() });
+
 };
 
 const createUser = (req, res) => {
   const result = validationResult(req, { strictParams: ["body"] });
+
+
   if (result.isEmpty()) {
     let user = new User({
       name: req.body.name,
@@ -98,7 +103,21 @@ const validate = (method) => {
       ];
     }
     case UPDATE_USER: {
-      return [body("name", "name doesn't exists").exists()];
+      return [
+        body("name", "name doesn't exists").exists(),
+        param("email", "Invalid email")
+          .exists()
+          .isEmail()
+          .custom(async (value) => {
+            const existingUser = await User.find({
+              email: value,
+            });
+            if (existingUser.length==0) {
+              // Will use the below as the error message
+              throw new Error("User does not exists");
+            }
+          }),
+      ];
     }
   }
 };
