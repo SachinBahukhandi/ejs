@@ -16,6 +16,8 @@ const bodyParser  = require('body-parser');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+var userMiddleware= require('./middlewares/user');
+
 var app = express();
 
 // Connect to the database
@@ -39,6 +41,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+app.use(userMiddleware.checkRequestHeaders);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

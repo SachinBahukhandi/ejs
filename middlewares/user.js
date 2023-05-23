@@ -1,5 +1,7 @@
 const checkRequestHeaders = (req, res, next) => {
-  res.locals.jax = req.xhr;
+    console.log('hellooo');
+//     res.locals.jax = req.xhr;
+//   console.log(res.locals);
   next();
 };
 
