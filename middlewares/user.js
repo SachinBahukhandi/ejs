@@ -1,7 +1,7 @@
 const checkRequestHeaders = (req, res, next) => {
-    console.log('hellooo');
-//     res.locals.jax = req.xhr;
-//   console.log(res.locals);
+  console.error("Time:", Date.now(), req.xhr, req.get("Content-Type"));
+  res.locals.returnJSON =
+    req.get("Content-Type") == "application/json" ? true : false;
   next();
 };
 
