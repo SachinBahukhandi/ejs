@@ -1,9 +1,9 @@
-const User = require("../models/User");
+const Todo = require("../models/Todo");
 const { query, validationResult, body } = require("express-validator");
 
-const CREATE_USER = "create-user";
-const getUsers = (req, res) => {
-  User.find({})
+const CREATE_TODO = "create-todo";
+const getTodos = (req, res) => {
+  Todo.find({})
     .then((users) => {
       res.json({ msg: "List Users", val: users });
     })
@@ -78,9 +78,6 @@ const validate = (method) => {
   }
 };
 module.exports = {
-  getUsers,
-  createUser,
-  getUser,
-  validate,
-  CREATE_USER,
+  getTodo,
+  CREATE_TODO
 };
