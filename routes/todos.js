@@ -18,14 +18,9 @@ CREATE_TODO
 /* GET users listing. */
 
 // // a middleware function with no mount path. This code is executed for every request to the router
-// router.use((req, res, next) => {
-//   console.error('hello');
-//   next();
-// });
-
 router.get("/", getTodo);
 
-// router.post("/", validate(CREATE_USER), createUser);
+router.post("/", validate(CREATE_TODO), createUser);
 
 // router.put("/:email", validate(UPDATE_USER), updateUser);
 

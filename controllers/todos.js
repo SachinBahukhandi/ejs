@@ -12,7 +12,7 @@ const getTodos = (req, res) => {
     });
 };
 
-const createUser = (req, res) => {
+const createTodos = (req, res) => {
   const result = validationResult(req);
   if (result.isEmpty()) {
     let user = new User({
@@ -41,36 +41,18 @@ const getUser = (req, res) => {
 
 const validate = (method) => {
   switch (method) {
-    case CREATE_USER: {
+    case CREATE_TODO: {
       return [
         body("name", "name doesn't exists").exists(),
-        body("email", "Invalid email")
+        body("user_id", "Invalid email")
           .exists()
-          .isEmail()
           .custom(async (value) => {
             const existingUser = await User.find({
-              email: value,
+              id: value,
             });
-            if (existingUser) {
+            if (!existingUser) {
               // Will use the below as the error message
-              throw new Error("A user already exists with this e-mail address");
-            }
-          }),
-      ];
-    }
-    case UPDATE_USER: {
-      return [
-        body("name", "name doesn't exists").exists(),
-        body("email", "Invalid email")
-          .exists()
-          .isEmail()
-          .custom(async (value) => {
-            const existingUser = await User.find({
-              email: value,
-            });
-            if (existingUser) {
-              // Will use the below as the error message
-              throw new Error("A user already exists with this e-mail address");
+              throw new Error("No User associated with this id");
             }
           }),
       ];
@@ -78,6 +60,7 @@ const validate = (method) => {
   }
 };
 module.exports = {
-  getTodo,
-  CREATE_TODO
+  getTodos,
+  createTodos,
+  CREATE_TODO,
 };
