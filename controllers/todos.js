@@ -2,6 +2,7 @@ const Todo = require("../models/Todo");
 const { query, validationResult, body } = require("express-validator");
 
 const CREATE_TODO = "create-todo";
+const UPDATE_TODO = "update-todo";
 const getTodos = (req, res) => {
   Todo.find({})
     .then((users) => {
@@ -27,14 +28,15 @@ const createTodos = (req, res) => {
   res.send({ errors: result.array() });
 };
 
-const getUser = (req, res) => {
-  User.find({
-    email: req.params.email,
-  }).then((user) => {
-    if (!user.length) {
-      res.json({ msg: "User not Found" });
+
+const getTodo = (req, res) => {
+  Todo.find({
+    id: req.params.id,
+  }).then((todo) => {
+    if (!todo.length) {
+      res.json({ msg: "Todo not Found" });
     } else {
-      res.json({ msg: "User Found Successfully", val: user });
+      res.json({ msg: "Todo Found Successfully", val: todo });
     }
   });
 };
@@ -63,4 +65,5 @@ module.exports = {
   getTodos,
   createTodos,
   CREATE_TODO,
+  UPDATE_TODO,
 };
