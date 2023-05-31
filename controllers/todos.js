@@ -64,6 +64,7 @@ const validate = (method) => {
 module.exports = {
   getTodos,
   createTodos,
+  getTodo,
   CREATE_TODO,
   UPDATE_TODO,
 };
