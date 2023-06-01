@@ -6,7 +6,7 @@ const UPDATE_TODO = "update-todo";
 const getTodos = (req, res) => {
   Todo.find({})
     .then((users) => {
-      res.json({ msg: "List Users", val: users });
+      res.json({ msg: "List Todos", val: users });
     })
     .catch((e) => {
       res.json({ msg: "Error Occured", val: e });
