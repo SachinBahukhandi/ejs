@@ -21,9 +21,9 @@ const createTodos = (req, res) => {
       email: req.body.email,
     });
     user.save().then((val) => {
-      res.json({ msg: "User Added Successfully", val: val });
+      res.json({ msg: "Todo Added Successfully", val: val });
     });
-    return res.send(`Hello, ${req.body.name}!`);
+    return res.send(`Test:, ${req.body.name}!`);
   }
   res.send({ errors: result.array() });
 };
