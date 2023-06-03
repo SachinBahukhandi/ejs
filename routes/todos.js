@@ -1,15 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const {
-  getUsers,
-  createUser,
-  getUser,
-  deleteUser,
-  validate,
-  CREATE_USER,
-  UPDATE_USER,
-  updateUser,
-} = require("../controllers/users");
+
 
 const {
 getTodo,
