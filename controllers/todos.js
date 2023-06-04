@@ -3,7 +3,7 @@ const { query, validationResult, body } = require("express-validator");
 
 const CREATE_TODO = "create-todo";
 const UPDATE_TODO = "update-todo";
-const getTodos = (req, res) => {
+const listTodos = (req, res) => {
   Todo.find({})
     .then((users) => {
       res.json({ msg: "List Todos", val: users });
@@ -13,7 +13,7 @@ const getTodos = (req, res) => {
     });
 };
 
-const createTodos = (req, res) => {
+const createTodo = (req, res) => {
   const result = validationResult(req);
   if (result.isEmpty()) {
     let user = new User({
@@ -62,9 +62,10 @@ const validate = (method) => {
   }
 };
 module.exports = {
-  getTodos,
-  createTodos,
+  createTodo,
   getTodo,
+  listTodos,
   CREATE_TODO,
   UPDATE_TODO,
+  validate
 };
