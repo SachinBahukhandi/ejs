@@ -15,6 +15,7 @@ const bodyParser  = require('body-parser');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var todosRouter = require('./routes/todos');
 
 var userMiddleware= require('./middlewares/user');
 
@@ -41,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(userMiddleware.checkRequestHeaders);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/todos', todosRouter);
 
 
 
