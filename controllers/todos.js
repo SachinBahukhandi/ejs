@@ -1,4 +1,5 @@
 const Todo = require("../models/Todo");
+const User= require('../models/User');
 const { query, validationResult, body, matchedData } = require("express-validator");
 
 const CREATE_TODO = "create-todo";
@@ -50,15 +51,16 @@ const validate = (method) => {
         body("email", "User Email doesn't exists")
           .exists()
           .isEmail()
-          // .custom(async (value) => {
-          //   const existingUser = await User.find({
-          //     email: value,
-          //   });
-          //   if (existingUser) {
-          //     // Will use the below as the error message
-          //     throw new Error("A user already exists with this e-mail address");
-          //   }
-          // }),
+          .custom(async (value) => {
+            const existingUser = await User.find({
+              email: value,
+            });
+            console.log(existingUser.length);
+            if (existingUser.length===0) {
+              // Will use the below as the error message
+              throw new Error("A user does not exist with this e-mail address");
+            }
+          }),
       ];
     }
   }
