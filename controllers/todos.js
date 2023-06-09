@@ -1,6 +1,11 @@
 const Todo = require("../models/Todo");
-const User= require('../models/User');
-const { query, validationResult, body, matchedData } = require("express-validator");
+const User = require("../models/User");
+const {
+  query,
+  validationResult,
+  body,
+  matchedData,
+} = require("express-validator");
 
 const CREATE_TODO = "create-todo";
 const UPDATE_TODO = "update-todo";
@@ -18,17 +23,26 @@ const createTodo = (req, res) => {
   const result = validationResult(req);
   if (result.isEmpty()) {
     const data = matchedData(req);
-    console.log(data);
-    // let user = new User({
-    //   name: req.body.name,
-    //   email: req.body.email,
+    User.findOne({
+      email: data.email,
+    }).then(user=>{
+      console.log(user);
+    });
+
+    // if(user.length){
+    //     res.send(user);
+    // }
+    res.json([data]);
+    // let todo = new Todo({
+    //   name: data.name,
+    //   email: data.email,
     // });
     // user.save().then((val) => {
     //   res.json({ msg: "Todo Added Successfully", val: val });
     // });
-    return res.send(`Test:, ${req.body.name}!`);
+  } else {
+    res.send({ errors: result.array() });
   }
-  res.send({ errors: result.array() });
 };
 
 const getTodo = (req, res) => {
@@ -56,7 +70,7 @@ const validate = (method) => {
               email: value,
             });
             console.log(existingUser.length);
-            if (existingUser.length===0) {
+            if (existingUser.length === 0) {
               // Will use the below as the error message
               throw new Error("A user does not exist with this e-mail address");
             }
