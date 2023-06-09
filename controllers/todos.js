@@ -25,21 +25,15 @@ const createTodo = (req, res) => {
     const data = matchedData(req);
     User.findOne({
       email: data.email,
-    }).then(user=>{
-      console.log(user);
+    }).then((user) => {
+      let todo = new Todo({
+        name: data.name,
+        uid: user.id,
+      });
+      user.save().then((val) => {
+        res.json({ msg: "Todo Added Successfully", val: todo });
+      });
     });
-
-    // if(user.length){
-    //     res.send(user);
-    // }
-    res.json([data]);
-    // let todo = new Todo({
-    //   name: data.name,
-    //   email: data.email,
-    // });
-    // user.save().then((val) => {
-    //   res.json({ msg: "Todo Added Successfully", val: val });
-    // });
   } else {
     res.send({ errors: result.array() });
   }
