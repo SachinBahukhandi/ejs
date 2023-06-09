@@ -10,9 +10,9 @@ const {
 const CREATE_TODO = "create-todo";
 const UPDATE_TODO = "update-todo";
 const listTodos = (req, res) => {
-  Todo.find({})
-    .then((users) => {
-      res.json({ msg: "List Todos", val: users });
+  Todo.find()
+    .then((todos) => {
+      res.json({ msg: "List Todos", val: todos });
     })
     .catch((e) => {
       res.json({ msg: "Error Occured", val: e });
@@ -30,7 +30,7 @@ const createTodo = (req, res) => {
         name: data.name,
         uid: user.id,
       });
-      user.save().then((val) => {
+      todo.save().then((val) => {
         res.json({ msg: "Todo Added Successfully", val: todo });
       });
     });
