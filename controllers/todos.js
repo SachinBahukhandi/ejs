@@ -10,6 +10,11 @@ const {
 const CREATE_TODO = "create-todo";
 const UPDATE_TODO = "update-todo";
 const listTodos = (req, res) => {
+  $matcher = {};
+  if(req.query.email){
+
+  }
+
   Todo.find()
     .then((todos) => {
       res.json({ msg: "List Todos", val: todos });
