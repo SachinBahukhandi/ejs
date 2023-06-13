@@ -10,18 +10,26 @@ const {
 const CREATE_TODO = "create-todo";
 const UPDATE_TODO = "update-todo";
 const listTodos = (req, res) => {
-  $matcher = {};
-  if(req.query.email){
-
-  }
-
-  Todo.find()
-    .then((todos) => {
-      res.json({ msg: "List Todos", val: todos });
+  let matcher = {};
+  if (req.query.email) {
+    User.findOne({
+      email: req.query.email,
     })
-    .catch((e) => {
-      res.json({ msg: "Error Occured", val: e });
-    });
+      .then((user) => {
+        matcher.uid = user.id;
+      })
+      .catch((e) => {
+        res.json({ msg: "Error Occured", val: "User not found!" });
+      });
+  } else {
+    Todo.find()
+      .then((todos) => {
+        res.json({ msg: "List Todos", val: todos });
+      })
+      .catch((e) => {
+        res.json({ msg: "Error Occured", val: e });
+      });
+  }
 };
 
 const createTodo = (req, res) => {
