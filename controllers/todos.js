@@ -16,18 +16,30 @@ const listTodos = (req, res) => {
       email: req.query.email,
     })
       .then((user) => {
+        console.log(user);
         matcher.uid = user.id;
+        findTodo(matcher)
+          .then((todos) => {
+            console.log("called", matcher);
+            res.json({ msg: "List Todos", val: todos });
+          })
+          .catch((e) => {
+            res.json({ msg: "Error Occured", val: e });
+          });
       })
       .catch((e) => {
         res.json({ msg: "Error Occured", val: "User not found!" });
       });
+  } else {
+    findTodo(matcher)
+      .then((todos) => {
+        console.log("called", matcher);
+        res.json({ msg: "List Todos", val: todos });
+      })
+      .catch((e) => {
+        res.json({ msg: "Error Occured", val: e });
+      });
   }
-  findTodo(matcher).then((todos) => {
-    res.json({ msg: "List Todos", val: todos });
-  })
-  .catch((e) => {
-    res.json({ msg: "Error Occured", val: e });
-  })
 };
 
 const createTodo = (req, res) => {
@@ -46,12 +58,8 @@ const createTodo = (req, res) => {
       });
     });
   } else {
-    res.send({ errors: result.array() });
+    res.send({ hello: "", errors: result.array() });
   }
-};
-
-const findTodo = async (matcher = {}) => {
-  return await Todo.find(matcher);
 };
 
 const getTodo = (req, res) => {
@@ -75,18 +83,24 @@ const validate = (method) => {
           .exists()
           .isEmail()
           .custom(async (value) => {
-            const existingUser = await User.find({
+            console.log("hello", value);
+            const user = await User.find({
               email: value,
             });
-            console.log(existingUser.length);
-            if (existingUser.length === 0) {
-              // Will use the below as the error message
-              throw new Error("A user does not exist with this e-mail address");
+            if (!user) {
+              throw new Error(
+                "A user does not exists with this e-mail address"
+              );
             }
           }),
       ];
     }
   }
+};
+
+const findTodo = async (matcher = {}) => {
+  console.log("hello", matcher);
+  return await Todo.find(matcher);
 };
 module.exports = {
   createTodo,

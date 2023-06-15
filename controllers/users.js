@@ -36,23 +36,22 @@ const updateUser = (req, res) => {
       });
   }
   return res.send({ errors: result.array() });
-
 };
 
 const createUser = (req, res) => {
   const result = validationResult(req, { strictParams: ["body"] });
 
-
   if (result.isEmpty()) {
     let user = new User({
       name: req.body.name,
+      email: req.body.email,
     });
     user.save().then((val) => {
       res.json({ msg: "User Added Successfully", val: val });
     });
-    return res.send(`Hello, ${req.body.name}!`);
+  } else {
+    return res.send({ errors: result.array() });
   }
-  return res.send({ errors: result.array() });
 };
 
 const getUser = (req, res) => {
@@ -95,9 +94,12 @@ const validate = (method) => {
             const existingUser = await User.find({
               email: value,
             });
-            if (existingUser) {
+            if (existingUser.length) {
+              console.log(existingUser);
               // Will use the below as the error message
-              throw new Error("A user already exists with this e-mail address");
+              throw new Error(
+                "A user alrxeady exists with this e-mail address"
+              );
             }
           }),
       ];
@@ -112,7 +114,7 @@ const validate = (method) => {
             const existingUser = await User.find({
               email: value,
             });
-            if (existingUser.length==0) {
+            if (existingUser.length == 0) {
               // Will use the below as the error message
               throw new Error("User does not exists");
             }
