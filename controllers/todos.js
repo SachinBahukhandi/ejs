@@ -21,15 +21,13 @@ const listTodos = (req, res) => {
       .catch((e) => {
         res.json({ msg: "Error Occured", val: "User not found!" });
       });
-  } else {
-    Todo.find()
-      .then((todos) => {
-        res.json({ msg: "List Todos", val: todos });
-      })
-      .catch((e) => {
-        res.json({ msg: "Error Occured", val: e });
-      });
   }
+  findTodo(matcher).then((todos) => {
+    res.json({ msg: "List Todos", val: todos });
+  })
+  .catch((e) => {
+    res.json({ msg: "Error Occured", val: e });
+  })
 };
 
 const createTodo = (req, res) => {
@@ -50,6 +48,10 @@ const createTodo = (req, res) => {
   } else {
     res.send({ errors: result.array() });
   }
+};
+
+const findTodo = async (matcher = {}) => {
+  return await Todo.find(matcher);
 };
 
 const getTodo = (req, res) => {
