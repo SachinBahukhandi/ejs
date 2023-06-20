@@ -16,11 +16,9 @@ const listTodos = (req, res) => {
       email: req.query.email,
     })
       .then((user) => {
-        console.log(user);
         matcher.uid = user.id;
         findTodo(matcher)
           .then((todos) => {
-            console.log("called", matcher);
             res.json({ msg: "List Todos", val: todos });
           })
           .catch((e) => {
