@@ -18,8 +18,8 @@ router.post("/", validate(CREATE_TODO), createTodo);
 
 // router.put("/:email", validate(UPDATE_USER), updateUser);
 
-// router.get("/:email", getUser);
+router.get("/:todo", getTodo);
 
-// router.delete("/:email", deleteUser);
+router.delete("/:todo", deleteUser);
 
 module.exports = router;

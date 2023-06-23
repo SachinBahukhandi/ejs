@@ -31,7 +31,6 @@ const listTodos = (req, res) => {
   } else {
     findTodo(matcher)
       .then((todos) => {
-        console.log("called", matcher);
         res.json({ msg: "List Todos", val: todos });
       })
       .catch((e) => {
@@ -72,6 +71,19 @@ const getTodo = (req, res) => {
   });
 };
 
+const deleteTodo = (req, res) => {
+  Todo.find({
+    id: req.params.id,
+  }).then((todo) => {
+    if (!todo.length) {
+      res.json({ msg: "Todo not Found" });
+    } else {
+      todo.deleteMany();
+      res.json({ msg: "Todo Deleted Successfully", val: todo });
+    }
+  });
+};
+
 const validate = (method) => {
   switch (method) {
     case CREATE_TODO: {
@@ -97,7 +109,6 @@ const validate = (method) => {
 };
 
 const findTodo = async (matcher = {}) => {
-  console.log("hello", matcher);
   return await Todo.find(matcher);
 };
 module.exports = {
