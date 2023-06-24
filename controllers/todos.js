@@ -59,6 +59,25 @@ const createTodo = (req, res) => {
   }
 };
 
+const updateTodo = (req, res) => {
+  const result = validationResult(req);
+  if (result.isEmpty()) {
+    let data = matchedData(req);
+    Todo.findOneAndUpdate(
+      {
+        id: req.params.id,
+      },
+      {
+        name: data.name,
+      }
+    ).then((todo) => {
+      res.json({ msg: "Todo Updated Successfully", val: todo });
+    });
+  } else {
+    res.send({ hello: "", errors: result.array() });
+  }
+};
+
 const getTodo = (req, res) => {
   Todo.find({
     id: req.params.id,
@@ -105,6 +124,9 @@ const validate = (method) => {
           }),
       ];
     }
+    case UPDATE_TODO: {
+      return [body("name", "name doesn't exists").exists()];
+    }
   }
 };
 
@@ -115,6 +137,8 @@ module.exports = {
   createTodo,
   getTodo,
   listTodos,
+  updateTodo,
+  deleteTodo,
   CREATE_TODO,
   UPDATE_TODO,
   validate,

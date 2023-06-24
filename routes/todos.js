@@ -8,6 +8,9 @@ listTodos,
 CREATE_TODO,
 validate,
 createTodo,
+updateTodo,
+deleteTodo,
+UPDATE_TODO,
 } = require("../controllers/todos");
 /* GET users listing. */
 
@@ -16,10 +19,10 @@ router.get("/", listTodos);
 
 router.post("/", validate(CREATE_TODO), createTodo);
 
-// router.put("/:email", validate(UPDATE_USER), updateUser);
+router.put("/:todo", validate(UPDATE_TODO), updateTodo);
 
 router.get("/:todo", getTodo);
 
-router.delete("/:todo", deleteUser);
+router.delete("/:todo", deleteTodo);
 
 module.exports = router;
