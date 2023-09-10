@@ -8,6 +8,14 @@ const { query } = require('express-validator');
 require('dotenv').config();
 const bodyParser  = require('body-parser');
 
+const mysql = require('mysql');
+
+let con = mysql.createConnection({
+  host: "localhost",
+  user: "yourusername",
+  password: "yourpassword"
+});
+
 
 
 
@@ -26,6 +34,7 @@ mongoose
   .connect(process.env.DB, { useNewUrlParser: true })
   .then(() => console.log(`Database connected successfully`))
   .catch((err) => console.log(err));
+
 
 // Since mongoose's Promise is deprecated, we override it with Node's Promise
 mongoose.Promise = global.Promise;

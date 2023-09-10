@@ -3,9 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "pm2 start ./bin/www --watch"
+    "start": "pm2 start ./src/bin/www.ts --watch",
+    "serve": "node dist/index.js",
+    "build": "npx tsc",
+    "dev": "pm2 start ./bin/www --watch"
   },
   "dependencies": {
+    "@prisma/client": "^5.2.0",
     "body-parser": "^1.20.2",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
@@ -14,10 +18,21 @@
     "express-validator": "^7.0.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
+    "mongodb": "^5.8.1",
     "mongoose": "^7.1.0",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "mysql": "^2.18.1",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
-    "kill-port": "^2.0.1"
+    "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.4",
+    "@types/node": "^20.5.9",
+    "@typescript-eslint/parser": "^6.6.0",
+    "kill-port": "^2.0.1",
+    "prisma": "^5.2.0",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.2.2"
   }
 }

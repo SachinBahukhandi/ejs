@@ -11,7 +11,7 @@ createTodo,
 updateTodo,
 deleteTodo,
 UPDATE_TODO,
-} = require("../controllers/todos");
+} = require("../../controllers/todos");
 /* GET users listing. */
 
 // // a middleware function with no mount path. This code is executed for every request to the router
